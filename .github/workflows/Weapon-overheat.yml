@@ -23,7 +23,7 @@ jobs:
 
       - name: Find and build project
         run: |
-          PROJECT=$(find . -name "*weaponoverheat.csproj" | head -n 1)
+          PROJECT=$(find . -name "*Weaponoverheat.csproj" | head -n 1)
           if [ -z "$PROJECT" ]; then
             echo "No C# project found. Upload the mod source files first."
             exit 1
