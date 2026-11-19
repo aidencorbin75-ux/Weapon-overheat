@@ -9,6 +9,5 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MelonLoader"><HintPath>References/MelonLoader.dll</HintPath><Private>false</Private></Reference>
-
   </ItemGroup>
 </Project>
