@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>WeaponOverheat</AssemblyName>
+    <RootNamespace>CART3R.WeaponOverheat</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MelonLoader"><HintPath>References/MelonLoader.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>
