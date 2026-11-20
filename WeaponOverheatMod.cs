@@ -1,27 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using MelonLoader;
+name: Build WeaponOverheat
 
-namespace CART3R.WeaponOverheat
-{
-    // Patch-6 runtime reconnaissance build. It deliberately does not claim to
-    // jam or explode guns until the live firearm firing API is verified.
-    public sealed class WeaponOverheatMod : MelonMod
-    {
-        private bool _scanned;
-        private DateTime _scanAt;
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
 
-        public override void OnInitializeMelon()
-        {
-            MelonLogger.Msg("==============================================");
-            MelonLogger.Msg("CART3R Weapon Overheat - Quest Patch 6 probe");
-            MelonLogger.Msg("Planned: barrel orange/red heat, firing jam, critical overheat explosion.");
-            MelonLogger.Warning("This build discovers live firearm APIs only; gameplay effects are not enabled yet.");
-            MelonLogger.Msg("==============================================");
-            _scanAt = DateTime.UtcNow.AddSeconds(8);
-        }
+permissions:
+  contents: read
 
-        public override void OnUpdate()
-        {
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download source
+        uses: actions/checkout@v4
+
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Find and build project
+        run: |
+          PROJECT=$(find . -name "*.csproj" | head -n 1)
+          if [ -z "$PROJECT" ]; then
+            echo "No C# project found. Upload the mod source files first."
+            exit 1
+          fi
+          dotnet restore "$PROJECT"
+          dotnet build "$PROJECT" -c Release
+
+      - name: Upload DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: WeaponOverheat-DLL
+          path: "**/bin/Release/**/*.dll"
+          if-no-files-found: error
