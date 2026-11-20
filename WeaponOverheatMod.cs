@@ -1,39 +1,15 @@
-name: Build WeaponOverheat
+using MelonLoader;
+using System;
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-
-permissions:
-  contents: read
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download source
-        uses: actions/checkout@v4
-
-      - name: Install .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Find and build project
-        run: |
-          PROJECT=$(find . -name "*.csproj" | head -n 1)
-          if [ -z "$PROJECT" ]; then
-            echo "No C# project found. Upload the mod source files first."
-            exit 1
-          fi
-          dotnet restore "$PROJECT"
-          dotnet build "$PROJECT" -c Release
-
-      - name: Upload DLL
-        uses: actions/upload-artifact@v4
-        with:
-          name: WeaponOverheat-DLL
-          path: "**/bin/Release/**/*.dll"
-          if-no-files-found: error
+namespace CART3R.WeaponOverheat
+{
+    public class WeaponOverheatMod : MelonMod
+    {
+        public override void OnInitializeMelon()
+        {
+            MelonLogger.Msg("CART3R Weapon Overheat Loaded!");
+            MelonLogger.Msg("BONELAB Quest Patch 6");
+            MelonLogger.Msg("[WOH] Initialization successful!");
+        }
+    }
+}
